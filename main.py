@@ -1,7 +1,7 @@
 import os
 import openai
 import streamlit as st
-from google.cloud import firestore
+import firestore
 
 # Streamlitの秘密管理機能を使用してOpenAI APIキーを設定
 openai.api_key = st.secrets["OpenAIAPI"]["openai_api_key"]
