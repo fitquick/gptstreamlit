@@ -1,13 +1,22 @@
 # 必要なライブラリのインポート
 import streamlit as st
-import openai
-import firebase_admin
-from firebase_admin import credentials, firestore
 
-# Firestoreの初期化
-cred = credentials.Certificate('path/to/serviceAccountKey.json')
-firebase_admin.initialize_app(cred)
-db = firestore.client()
+try:
+    import openai
+    import firebase_admin
+    from firebase_admin import credentials, firestore
+except ImportError as e:
+    st.error(f"依存関係のインポート中にエラーが発生しました: {e}")
+    raise e
+
+try:
+    # Firestoreの初期化
+    cred = credentials.Certificate('path/to/serviceAccountKey.json')
+    firebase_admin.initialize_app(cred)
+    db = firestore.client()
+except Exception as e:
+    st.error(f"Firestoreの初期化中にエラーが発生しました: {e}")
+    raise e
 
 # Streamlitの秘密管理機能を使用してOpenAI APIキーを設定
 openai.api_key = st.secrets["OpenAIAPI"]["openai_api_key"]
@@ -147,4 +156,8 @@ def run():
             st.session_state.displayed_chat_ref.collection("messages").add(assistant_output_data)
 
 if __name__ == "__main__":
-    run()
+    try:
+        run()
+    except Exception as e:
+        st.error(f"アプリケーション実行中にエラーが発生しました: {e}")
+        raise e
