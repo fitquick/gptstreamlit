@@ -1,7 +1,13 @@
-import os
-import openai
+# 必要なライブラリのインポート
 import streamlit as st
-from google.cloud import firestore
+import openai
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+# Firestoreの初期化
+cred = credentials.Certificate('path/to/serviceAccountKey.json')
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 # Streamlitの秘密管理機能を使用してOpenAI APIキーを設定
 openai.api_key = st.secrets["OpenAIAPI"]["openai_api_key"]
