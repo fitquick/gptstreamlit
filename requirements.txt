@@ -1,3 +1,4 @@
 streamlit==1.30.0
 openai==0.28.1
 google-cloud-firestore==2.3.4
+firebase-admin
